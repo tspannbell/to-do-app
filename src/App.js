@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import React from "react";
+import List from "./components/List";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  //tracking user input: using form or input field
+  // onChange is probably needed
+  //on Submit is deff needed
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      noteText: "",
+      notes: [],
+    };
+  }
+
+  onChange = (event) => {
+    this.setState({
+      noteText: event.target.value,
+    });
+  };
+
+  onSubmit = (event) => {
+    event.preventDefault();
+
+    this.setState({
+      noteText: "",
+      notes: [...this.state.notes, this.state.noteText],
+    });
+    console.log(this.state.notes);
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <form onSubmit={this.onSubmit}>
+          <input
+            value={this.state.noteText}
+            onChange={this.onChange}
+            placeholder="Type Here To Add A Task"
+          />
+        </form>
+        <List notes={this.state.notes} />
+      </div>
+    );
+  }
 }
 
 export default App;
